@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Document</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            text-align: center;
+        }
+
+        header {
+            flex: 1;
+
+        }
+
+        footer {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        main {
+            flex: 8;
+            display: flex;
+
+        }
+
+        #main_b , #main_a {
+            flex: 1;
+            margin: 1rem;
+        }
+        form {
+            padding: 1rem;
+        }
+        .registro{
+            color: blue !important;
+        }
+        .login{
+            color: brown !important;
+        }
+    </style>
+
+</head>
+
+<body>
+    <header class="bg-primary text-white">
+        <div class="container">
+            <h1 class="text-center">Muro privado App </h1>
+        </div>
+    </header>
+    <main class="container mt-4 ">
+            <div id="main_a" >
+
+
+    
+                <form action="/usuarios/registro" method="POST" class="border border-primary rounded">
+                    <h3>Registro:</h3>
+                    {% with messages =get_flashed_messages(with_categories=true) %}<!-- declara una variable llamada mensajes -->
+    
+                    {% if messages %}<!-- revisa si hay algún mensaje -->
+         
+                            {% for category, message in messages %}   <!-- recorre los mensajes -->
+                                {%if category=='mensajes' %}
+                                    <p  class="alert alert-warning">{{message}}</p>  <!-- muestra cada mensaje en una etiqueta de párrafo --> 
+                                {%endif%}
+                            {% endfor %}
+         
+                    {% endif %}
+         
+                {% endwith %}
+                    <div class="mb-3">
+                        <label for="nombre" class="form-label">Nombre:</label>
+                        <input type="text" class="form-control" id="nombre" name="nombre" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="apellido" class="form-label">Apellido:</label>
+                        <input type="text" class="form-control" id="apellido" name="apellido" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email:</label>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password:</label>
+                        <input type="password" class="form-control" id="password" name="password" required >
+                    </div>
+                    <div class="mb-3">
+                        <label for="confirmar_password" class="form-label">Confirmar Password:</label>
+                        <input type="password" class="form-control" id="confirmar_password" name="confirmar_password" required >
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Crear</button>
+                </form>
+            </div>
+            <div id="main_b" >
+
+    
+    
+
+    
+    
+                <form action="/usuarios/login" method="POST" class="border border-primary rounded">
+                    {% with messages =get_flashed_messages(with_categories=true) %}<!-- declara una variable llamada mensajes -->
+    
+                    {% if messages %}<!-- revisa si hay algún mensaje -->
+         
+                            {% for category, message in messages %}   <!-- recorre los mensajes -->
+                                {%if category=='login' %}
+                                    <p class="alert alert-danger">{{message}}</p>  <!-- muestra cada mensaje en una etiqueta de párrafo --> 
+                                {%endif%}
+                            {% endfor %}
+         
+                    {% endif %}
+         
+                {% endwith %}
+                    <h3>Inicio de sesión:</h3>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email:</label>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password:</label>
+                        <input type="password" class="form-control" id="password" name="password" required >
+                    </div>
+    
+                    <button type="submit" class="btn btn-primary">Crear</button>
+                </form>
+            </div>
+
+    
+
+    </main>
+
+    <footer class="bg-primary text-white">
+        <P>2024 Muro privado </P>
+    </footer>
+
+</body>
+
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Document</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            text-align: center;
+        }
+
+        header {
+            flex: 1;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+
+        }
+
+        footer {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        main {
+            flex: 8;
+            display: flex;
+
+        }
+        #main_a{
+            flex: 1;
+
+        }
+        #main_b{
+            flex: 1;
+
+        }
+        form{
+            margin: 1rem;
+        }
+
+    </style>
+
+</head>
+
+<body>
+    <header class="bg-primary text-white">
+        <div >
+            <h1 class="text-center">Muro privado App</h1>
+        </div>
+        <div >
+            <form action="/destroy" method="POST" class="border border-primary rounded">
+                <button type="submit" class="btn btn-danger">Cerrar sesion</button>
+            </form>
+        </div>
+    </header>
+    <main class="container mt-4 ">
+        <div id="main_a">
+            <h4> <span style="color: blue;">{{numero_mensajes}}</span> Message(s) for you</h4>
+            {%for mensaje in mensajes%}
+            <div class="card" style="margin: 1rem;"> 
+                <div class="card-header">{{mensaje.sender_id.nombre}} said <span style="color: blue;">({{mensaje.tiempo_en_formato()}} )</span></div>
+                <div class="card-body">
+                    <p>{{mensaje.contenido}}</p>
+                </div>
+                <div class="card-footer">
+                    <a href="/delete/{{mensaje.id}}">Delete</a>
+                </div>
+            </div>
+            {%endfor%}
+        </div>
+        <div id="main_b">
+            <h4>Send Messages</h4>
+            <h5>You have sent <span style="color: blue;">{{mensajes_enviados}}</span> Messages so far</h5>
+                                    {% with messages =get_flashed_messages(with_categories=true) %}<!-- declara una variable llamada mensajes -->
+    
+                    {% if messages %}<!-- revisa si hay algún mensaje -->
+         
+                            {% for category, message in messages %}   <!-- recorre los mensajes -->
+                                {%if category=='mensajes' %}
+                                    <p  class="alert alert-warning">{{message}}</p>  <!-- muestra cada mensaje en una etiqueta de párrafo --> 
+                                {%endif%}
+                            {% endfor %}
+         
+                    {% endif %}
+         
+                {% endwith %}
+            {%for usuario in usuarios%}
+                {%if session['id'] != usuario.id %}
+
+                <form action="/enviar_mensaje" method="POST" class="border border-primary rounded">
+                    <input type="hidden" name="receiver_id" value="{{usuario.id}}">
+                    <input type="hidden" name="sender_id" value="{{session['id']}}">  
+                    <label for="mensaje"  class="form-label">{{usuario.nombre}}</label>
+                    <textarea class="form-control" id="contenido" name="contenido"></textarea>
+                    <button type="submit" class="btn btn-primary" style="margin: 0.5rem;">Enviar</button>
+                </form>
+                {%endif%}
+            {%endfor%}
+        </div>
+    </main>
+
+    <footer class="bg-primary text-white">
+        <P>2024 Muro privado App </P>
+    </footer>
+
+</body>
+
+</html>
